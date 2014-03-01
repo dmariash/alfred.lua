@@ -28,9 +28,14 @@ cat_facts = {"There are more than 500 million domestic cats in the world, with 3
 "Cats see so well in the dark because their eyes actually reflect light. Light goes in their eyes, and is reflected back out. This means that their eyes actually work almost like built-in flashlights."}
 
 
-function getWeather (location)
+function get_weather (location)
    b, c, h = http.request("http://api.openweathermap.org/data/2.5/weather?q=" .. location .. "&units=metric")
    return json:decode(b)
+end
+
+function home_automator (channel, button, state)
+  url = 'http://localhost:8080/setplugs?channel=' .. tostring(channel) .. '&button=' .. tostring(button) .. '&state=' .. tostring(state)
+  http.request(url)
 end
 
 function on_msg_receive (msg)
@@ -41,7 +46,7 @@ function on_msg_receive (msg)
         return
       end
       if (string.match(string.lower(msg.text), 'weather')) then
-        weather = getWeather('London,UK')
+        weather = get_weather('London,UK')
         temp = 'The weather in ' .. weather.name .. ' is ' .. weather.main.temp .. '°C'
         conditions = 'Current conditions are: ' .. weather.weather[1].description
         send_msg (msg.to.print_name, temp .. '\n' .. conditions)
@@ -50,24 +55,24 @@ function on_msg_receive (msg)
     end
     if (string.match(string.lower(msg.text), 'bedroom light')) then
       if (string.match(string.lower(msg.text), 'on')) then
-        http.request('http://192.168.1.8:8080/setplugs?channel=1&button=1&state=on')
+        home_automator(1, 1, 'on')
         send_msg (msg.to.print_name, 'Bedroom light is on.')
         return
       end
       if (string.match(string.lower(msg.text), 'off')) then
-        http.request('http://192.168.1.8:8080/setplugs?channel=1&button=1&state=off')
+        home_automator(1, 1, 'off')
         send_msg (msg.to.print_name, 'Bedroom light is off.')
         return
       end
     end
     if (string.match(string.lower(msg.text), 'cabinet light')) then
       if (string.match(string.lower(msg.text), 'on')) then
-        http.request('http://192.168.1.8:8080/setplugs?channel=1&button=3&state=on')
+        home_automator(1, 3, 'on')
         send_msg (msg.to.print_name, 'Cabinet light is on.')
         return
       end
       if (string.match(string.lower(msg.text), 'off')) then
-        http.request('http://192.168.1.8:8080/setplugs?channel=1&button=3&state=off')
+        home_automator(1, 3, 'off')
         send_msg (msg.to.print_name, 'Cabinet light is off.')
         return
       end
