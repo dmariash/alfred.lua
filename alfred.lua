@@ -47,7 +47,7 @@ function on_msg_receive (msg)
       end
       if (string.match(string.lower(msg.text), 'weather')) then
         weather = get_weather('London,UK')
-        temp = 'The weather in ' .. weather.name .. ' is ' .. weather.main.temp .. '°C'
+        temp = 'The temperature in ' .. weather.name .. ' is ' .. weather.main.temp .. '°C'
         conditions = 'Current conditions are: ' .. weather.weather[1].description
         send_msg (msg.to.print_name, temp .. '\n' .. conditions)
         return
@@ -56,24 +56,24 @@ function on_msg_receive (msg)
     if (string.match(string.lower(msg.text), 'bedroom light')) then
       if (string.match(string.lower(msg.text), 'on')) then
         home_automator(1, 1, 'on')
-        send_msg (msg.to.print_name, 'Bedroom light is on.')
+        send_msg (msg.to.print_name, 'Bedroom light is on')
         return
       end
       if (string.match(string.lower(msg.text), 'off')) then
         home_automator(1, 1, 'off')
-        send_msg (msg.to.print_name, 'Bedroom light is off.')
+        send_msg (msg.to.print_name, 'Bedroom light is off')
         return
       end
     end
     if (string.match(string.lower(msg.text), 'cabinet light')) then
       if (string.match(string.lower(msg.text), 'on')) then
         home_automator(1, 3, 'on')
-        send_msg (msg.to.print_name, 'Cabinet light is on.')
+        send_msg (msg.to.print_name, 'Cabinet light is on')
         return
       end
       if (string.match(string.lower(msg.text), 'off')) then
         home_automator(1, 3, 'off')
-        send_msg (msg.to.print_name, 'Cabinet light is off.')
+        send_msg (msg.to.print_name, 'Cabinet light is off')
         return
       end
     end
